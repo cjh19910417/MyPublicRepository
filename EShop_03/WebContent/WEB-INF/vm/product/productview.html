@@ -1,0 +1,148 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link href="/css/global/header01.css" rel="stylesheet" type="text/css"/>
+<link href="/css/product/product.css" rel="stylesheet" type="text/css"/>
+<link href="/css/global/topcommend.css" rel="stylesheet" type="text/css"/>
+<SCRIPT language=JavaScript src="/js/FoshanRen.js"></SCRIPT>
+<SCRIPT language=JavaScript src="/js/xmlhttp.js"></SCRIPT>
+<title>${product.name}-南雄数码网</title>
+<meta name="Keywords" content="${product.name}" />
+				<SCRIPT LANGUAGE="JavaScript" >
+					<!--
+						/*
+							用与切换产品的图片						
+						*/
+						function styleEvent(styleid) {
+							var productImage = document
+									.getElementById('productImage_' + styleid);
+							if (productImage) {
+								var main_image = document
+										.getElementById("main_image");
+								main_image.style.background = "url("
+										+ productImage.value
+										+ ") center center no-repeat";
+							}
+						}
+
+						function bigImageBrowse() {
+							var form = document.forms["cart"];
+							var stypeid = form.styleid.value;
+							var productPrototypeImage = document
+									.getElementById('productPrototypeImage_'
+											+ stypeid);
+							if (productPrototypeImage) {
+								var path = "http://localhost/product/switch.do?method=showimage&path="
+										+ productPrototypeImage.value;
+								window.open(path, "显示图片");
+							}
+						}
+						function getViewHistory() {
+							var viewHistoryUI = document
+									.getElementById('viewHistory');
+							if (viewHistoryUI) {
+								viewHistoryUI.innerHTML = "数据正在加载...";
+								send_request(
+										function(value) {
+											viewHistoryUI.innerHTML = value
+										},
+										"http://localhost/product/switch.do?method=getViewHistory&productid=${product.id}",
+										true);
+							}
+						}
+					//-->
+					</SCRIPT>
+</head>
+ 
+<body onload="getViewHistory()">
+<!--\#include virtual="/WEB-INF/page/share/Head.jsp" -->
+<div id="main">
+<div id="ContentBody"><!-- 页面主体 -->
+	 	 <div id="position"> 您现在的位置：<a href="/" name="linkHome">南雄数码网</a> <span id="uc_cat_spnPath"> &gt;&gt; <a href='/product/list/display.do?typeId=${product.type.typeId}'>${product.type.name}</a> &gt;&gt; <em>${product.name}</em></span></div>
+ <div class="browse_left"><!-- 页面主体 左边 --> 
+        <!-- 浏览过的商品 -->
+	 <div class="browse">
+	      <div class="browse_t">您浏览过的商品</div>
+	      <ul><div id="viewHistory"></div></ul>
+	 </div>
+	<!--精品推荐 start -->
+	<DIV id="topcommend" align="left">
+	       <DIV id="newtop"><IMG height=13 src="/images/global/sy2.gif" width=192></DIV>
+	       <DIV id="newlist">
+		  <DIV id="newmore">
+		    <DIV class="title">精品推荐</DIV>
+		  </DIV>
+			<span id="commenddetail">
+			</span>
+		</DIV>
+	</DIV>
+</div><!-- 页面主体 左边end -->
+	
+ <div id="Right" ><!-- 页面主体 右边 -->
+<form action="/shopping/cart.do" method="post" name="cart">
+<INPUT TYPE="hidden" NAME="productid" value="${product.id}" />
+<div id="browse_left">
+ 						
+ 							#foreach($color in $product.productStyles)
+								#if(${color.visible})
+									#set($currentimage=$color)
+								#end 
+							#end
+							<div class="right_left">
+								<div id="main_image"  style="cursor:pointer;background:url($currentimage.image140FullPath) center center no-repeat"><img onclick="bigImageBrowse()" src="/images/global/product_blank.gif" WIDTH="200" HEIGHT="240"/></div>
+								<img onclick="bigImageBrowse()" src="/images/global/zoom+.gif" style="cursor: pointer;"/>
+							</div>
+							
+							<div class="right_right">									
+									<div class="right_title"><b>${product.name}</b></div>
+									<div class="right_desc">
+											<ul>
+												<li class="li2">商品编号：${product.id}<font color="#CC0000">（电话订购专用）</font></li>
+												#if($!{product.brand}) <li>品牌：$product.brand.name</li> #end																																		</ul>
+									</div>
+									<div class="right_desc">
+											#if($product.productStyles.size()==1)
+											<INPUT TYPE="hidden" NAME="styleid" value="$product.productStyles.iterator().next().id" />
+											<li>颜色：$product.productStyles.iterator().next().name</li>
+											<input type="hidden" id="productPrototypeImage_$product.productStyles.iterator().next().id" value="${product.productStyles.iterator().next().imageFullPath}" />
+											<INPUT TYPE="hidden" id="productImage_$product.productStyles.iterator().next().id }" value="${product.productStyles.iterator().next().imagename}">
+											#else
+											 <li>颜色：
+											 <SELECT name="styleid" onchange="javascript:styleEvent(this.value)">
+											 	#foreach($color in $product.productStyles)
+													<option #if($color.id==$currentimage.id)selected #end value="$color.id">$color.name</option>
+												#end
+											</SELECT>
+											 </li>
+												#foreach($color in $product.productStyles)
+													#if(${color.visible})
+														<input type="hidden" id="productImage_${color.id}" value="${color.image140FullPath}"/>
+														<input type="hidden" id="productPrototypeImage_${color.id}" value="${color.imageFullPath}" />
+													#end 
+												#end
+											#end										  
+									</div>
+									<ul>
+										<li>市场价：<s>${product.marketprice}</s> 元 <font color='#ff6f02'>本站价：<b>${product.sellprice} 元</b></font> 节省：<font color='#ff6f02'>${product.savedPrice}</font> 元										</li>
+									  	<li class="right_img"><INPUT TYPE="image" SRC="/images/global/sale.gif"></li>
+																				<li class="guopiprice">
+										[ <IMG src="/images/global/2j4.gif" border="0"/>&nbsp;<A href="#" target="_blank">配送说明</A> ]&nbsp;&nbsp;&nbsp;&nbsp;[ <IMG src="/images/global/2j4.gif" border="0"/>&nbsp;<A href="#" target="_blank">付款方式</A> ]
+										</li>
+									</ul>									
+							</div>
+</div>
+							<div id="browse_right"><div id="sy_biankuang">
+										<div class="sy_xinpintuijian_font">本站尚未开张</div>
+										
+							</div></div>
+							
+</form>
+							<div class='right_blank'></div><div class='right_title1'>商品说明</div><div class='right_content'>${product.description}</div>
+ 
+ </div><!-- 页面主体 右边 end -->
+</div><!-- 页面主体 end -->
+</div>
+ <!--\#include virtual="/WEB-INF/page/share/Foot.jsp" -->
+</body>
+</html>

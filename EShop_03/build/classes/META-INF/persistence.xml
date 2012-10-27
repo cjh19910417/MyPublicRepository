@@ -1,0 +1,18 @@
+<persistence xmlns="http://java.sun.com/xml/ns/persistence"
+   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+   xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_1_0.xsd"
+   version="1.0">
+   <persistence-unit name="chan" transaction-type="RESOURCE_LOCAL">
+   	  <!-- 指明JPA 具体使用的 orm 产品 ;这里是用的hibernate -->
+      <provider>org.hibernate.ejb.HibernatePersistence</provider>
+      <properties>
+         <property name="hibernate.dialect" value="org.hibernate.dialect.MySQL5Dialect"/>
+         <!-- 数据库定义语言的权限等级 -->
+         <property name="hibernate.hbm2ddl.auto" value="update"/>
+         <property name="hibernate.show_sql" value="false"/>
+       	 <property name="hibernate.jdbc.fetch_size" value="18"/>
+       	 <property name="hibernate.jdbc.batch_size" value="10"/>
+       	 <property name="hibernate.max_fetch_depth" value="3"/>
+      </properties>
+   </persistence-unit>
+</persistence>

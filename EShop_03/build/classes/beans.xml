@@ -1,0 +1,108 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:context="http://www.springframework.org/schema/context" 
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+           http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
+           http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+           http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd">
+           
+    <!-- AOP -->
+    <aop:aspectj-autoproxy/>
+    
+	<!-- 管理com.jian包下面的所有类 -->
+	<context:component-scan base-package="com.jian"/>
+	<!-- 引入一些常量 -->
+	<context:property-placeholder location="classpath:jdbc.properties" />
+
+	<bean id="AutoLogonFilter" class="com.jian.web.filter.AutoLogonFilter">
+		<!-- 指名具体的filter类 -->
+		<property name="userService">
+			<!--//需要注入的具体参数 -->
+			<ref bean="userServiceImpl" />
+		</property>
+	</bean>
+	<!-- 配置数据源 用的是dbcp -->
+	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
+		destroy-method="close">
+		<property name="driverClassName" value="${driverClassName}" />
+		<property name="url" value="${url}" />
+		<property name="username" value="${username}" />
+		<property name="password" value="${password}" />
+		<!-- 连接池启动时的初始值 -->
+		<property name="initialSize" value="${initialSize}" />
+		<!-- 连接池的最大值 -->
+		<property name="maxActive" value="${maxActive}" />
+		<!-- 最大空闲值.当经过一个高峰时间后，连接池可以慢慢将已经用不到的连接慢慢释放一部分，一直减少到maxIdle为止 -->
+		<property name="maxIdle" value="${maxIdle}" />
+		<!-- 最小空闲值.当空闲的连接数少于阀值时，连接池就会预申请去一些连接，以免洪峰来时来不及申请 -->
+		<property name="minIdle" value="${minIdle}" />
+	</bean>
+
+	<!-- =========================== spring 集成 JPA 配置 START =========================== -->
+	<!-- 配置实体管理工厂 -->
+	<bean id="entityManagerFactory"
+		class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+		<!-- 数据源 -->
+		<property name="dataSource" ref="dataSource"></property>
+
+		<!-- 持久层的xml配置文件路径 -->
+		<property name="persistenceXmlLocation" value="classpath:META-INF/persistence.xml" />
+		<property name="loadTimeWeaver">
+			<bean
+				class="org.springframework.instrument.classloading.InstrumentationLoadTimeWeaver" />
+		</property>
+	</bean>
+
+	<!-- 注册事物管理器，并配置给它实体管理工厂 -->
+	<bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+		<property name="entityManagerFactory" ref="entityManagerFactory" />
+	</bean>
+	<!-- =========================== spring 集成 JPA 配置 END =========================== -->
+
+
+	<!-- 采用@Transactional注解方式使用事务 -->
+	<tx:annotation-driven transaction-manager="transactionManager" />
+
+	<!-- 配置compass -->
+   	<bean id="compass" class="org.compass.spring.LocalCompassBean">
+		<property name="classMappings">
+			<list>
+				<value>com.jian.bean.product.ProductInfo</value>
+				<value>com.jian.bean.product.Brand</value>
+				<value>com.jian.bean.product.ProductStyle</value>
+				<value>com.jian.bean.product.ProductType</value>
+			</list>
+		</property>
+		<property name="compassSettings">
+			<props>
+				<prop key="compass.engine.analyzer.default.type">net.paoding.analysis.analyzer.PaodingAnalyzer</prop>
+				<prop key="compass.engine.connection">file://d:/index</prop><!-- 在d:\index建立索引 -->
+				<!-- 在内存中建立索引
+				<prop key="compass.engine.connection">ram://index</prop>
+				-->
+				<prop key="compass.engine.highlighter.default.formatter.simple.pre"><![CDATA[<font color='red'>]]></prop>
+				<prop key="compass.engine.highlighter.default.formatter.simple.post"><![CDATA[</font>]]></prop>
+				<prop key="compass.transaction.factory">org.compass.spring.transaction.SpringSyncTransactionFactory</prop>
+			</props>
+		</property>
+		<property name="transactionManager" ref="transactionManager" />
+	</bean>
+
+	<!-- 自动完成 索引的添加/更新/删除操作,通过跟踪entityManagerFactory的事务周期-->
+	<bean id="compassGps" class="org.compass.gps.impl.SingleCompassGps" init-method="start" destroy-method="stop">
+		<property name="compass" ref="compass" />
+		<property name="gpsDevices">
+			<list>
+				<!-- 设置JPA驱动 -->
+				<bean class="org.compass.gps.device.jpa.JpaGpsDevice">
+						<property name="name" value="jpaDevice" />
+						<property name="entityManagerFactory" ref="entityManagerFactory" />
+						<property name="injectEntityLifecycleListener" value="true"/>
+				</bean>
+			</list>
+		</property>
+	</bean>	
+</beans>

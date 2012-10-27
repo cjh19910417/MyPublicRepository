@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.6">
+		<attributes>
+			<attribute name="owner.project.facets" value="java"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.web.container"/>
+	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.module.container"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/antlr-2.7.6.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/cglib-2.2.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/commons-collections-3.1.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/dom4j-1.6.1.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/ehcache-1.2.3.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/ejb3-persistence.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/hibernate3.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/hibernate-annotations.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/hibernate-commons-annotations.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/struts-taglib-1.3.10.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/struts-tiles-1.3.10.jar"/>
+	<classpathentry kind="lib" path="build/bsf-2.3.0.jar"/>
+	<classpathentry kind="lib" path="build/commons-beanutils-1.8.0.jar"/>
+	<classpathentry kind="lib" path="build/commons-chain-1.2.jar"/>
+	<classpathentry kind="lib" path="build/commons-digester-1.8.jar"/>
+	<classpathentry kind="lib" path="build/commons-fileupload-1.1.1.jar"/>
+	<classpathentry kind="lib" path="build/commons-io-1.1.jar"/>
+	<classpathentry kind="lib" path="build/commons-logging-1.0.4.jar"/>
+	<classpathentry kind="lib" path="build/commons-validator-1.3.1.jar"/>
+	<classpathentry kind="lib" path="build/hibernate-entitymanager.jar"/>
+	<classpathentry kind="lib" path="build/javassist-3.9.0.GA.jar"/>
+	<classpathentry kind="lib" path="build/jta-1.1.jar"/>
+	<classpathentry kind="lib" path="build/log4j.jar"/>
+	<classpathentry kind="lib" path="build/mysql-connector-java-5.1.18-bin.jar"/>
+	<classpathentry kind="lib" path="build/slf4j-api-1.5.8.jar"/>
+	<classpathentry kind="lib" path="build/slf4j-log4j12.jar"/>
+	<classpathentry kind="lib" path="build/spring-webmvc-struts.jar"/>
+	<classpathentry kind="lib" path="build/struts-core-1.3.10.jar"/>
+	<classpathentry kind="lib" path="build/struts-el-1.3.10.jar"/>
+	<classpathentry kind="lib" path="build/struts-extras-1.3.10.jar"/>
+	<classpathentry kind="lib" path="build/struts-faces-1.3.10.jar"/>
+	<classpathentry kind="lib" path="build/struts-mailreader-dao-1.3.10.jar"/>
+	<classpathentry kind="lib" path="build/struts-scripting-1.3.10.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/standard.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/jstl.jar"/>
+	<classpathentry kind="lib" path="build/jstl-1.0.2.jar"/>
+	<classpathentry kind="lib" path="build/standard-1.0.6.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/oscache-2.4.1.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/jstl-1.0.2.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/oro-2.0.8.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/standard-1.0.6.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/Tomcat V7"/>
+	<classpathentry kind="output" path="build/classes"/>
+</classpath>
